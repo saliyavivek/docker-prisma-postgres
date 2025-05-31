@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=vivek123
+
+  user_app:
+    build:
+      network: host
+      context: ./
+      dockerfile: Dockerfile
+
+    environment:
+      - DATABASE_URL=postgresql://postgres:vivek123@postgres:5432/postgres?schema=public
+
+    ports:
+      - 3000:3000
+
+    depends_on:
+      - postgres
